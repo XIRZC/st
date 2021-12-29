@@ -1584,17 +1584,11 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og, Line line, int le
 			g.u = 0x2603; /* snowman (U+2603) */
 			/* FALLTHROUGH */
 		case 0: /* Blinking Block */
-		  if (IS_SET(MODE_BLINK))
-		  	break;
 		case 1: /* Blinking Block (Default) */
-		  if (IS_SET(MODE_BLINK))
-		  	break;
 		case 2: /* Steady Block */
 			xdrawglyph(g, cx, cy);
 			break;
 		case 3: /* Blinking Underline */
-		  if (IS_SET(MODE_BLINK))
-		  	break;
 		case 4: /* Steady Underline */
 			XftDrawRect(xw.draw, &drawcol,
 					win.hborderpx + cx * win.cw,
@@ -1603,8 +1597,6 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og, Line line, int le
 					win.cw, cursorthickness);
 			break;
 		case 5: /* Blinking bar */
-		  if (IS_SET(MODE_BLINK))
-			break;
 		case 6: /* Steady bar */
 			XftDrawRect(xw.draw, &drawcol,
 					win.hborderpx + cx * win.cw,

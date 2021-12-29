@@ -1,0 +1,31 @@
+--- x.c
++++ x.c
+@@ -1810,11 +1818,9 @@ run(void)
+ 		}
+ 		if (FD_ISSET(ttyfd, &rfd)) {
+ 			ttyread();
+-			if (blinktimeout) {
+-				blinkset = tattrset(ATTR_BLINK);
+-				if (!blinkset)
+-					MODBIT(win.mode, 0, MODE_BLINK);
+-			}
++			blinkset = blinktimeout || tattrset(ATTR_BLINK);
++			if (!blinkset)
++			  MODBIT(win.mode, 0, MODE_BLINK);
+ 		}
+ 
+ 		if (FD_ISSET(xfd, &rfd))
+@@ -1843,8 +1849,11 @@ run(void)
+ 				XNextEvent(xw.dpy, &ev);
+ 				if (XFilterEvent(&ev, None))
+ 					continue;
+-				if (handler[ev.type])
+-					(handler[ev.type])(&ev);
++				if (handler[ev.type]) {
++				  	(handler[ev.type])(&ev);
++					lastblink = now;
++					if (IS_SET(MODE_BLINK)) MODBIT(win.mode, 0, MODE_BLINK);
++				}				
+ 			}
+ 
+ 			draw();
